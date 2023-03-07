@@ -21,9 +21,7 @@ db: List[User] = [
         last_name="Jackson",
         gender=Gender.female,
         roles=[Role.admin, Role.user]
-    ),
-
-
+    )
 
 ]
 
@@ -31,3 +29,14 @@ db: List[User] = [
 @app.get("/")
 async def root():
     return {"Hello": "World"}
+
+
+@app.get("/api/v1/users")
+async def fetch_users():
+    return db
+
+
+@app.post("/api/v1/users")
+async def register_user(user: User):
+    db.append(user)
+    return {"id": user.id}
