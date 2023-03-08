@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from models import User, Gender, Role
 from typing import List
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 
 app = FastAPI()
@@ -40,3 +40,11 @@ async def fetch_users():
 async def register_user(user: User):
     db.append(user)
     return {"id": user.id}
+
+
+@app.delete("/api/v1/users/{user_id}")
+async def delete_user(user_id: UUID):
+    for user in db:
+        if user.id == user_id:
+            db.remove(user)
+            return
